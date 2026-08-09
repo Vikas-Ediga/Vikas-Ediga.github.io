@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vikas N D — Aspiring DevOps Engineer</title>
+<meta name="description" content="Vikas N D — Aspiring DevOps Engineer. AWS, Linux, Python, CI/CD, Infrastructure as Code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0d1520;
+    --bg-raised: #121d2b;
+    --bg-line: #1c2c3f;
+    --text: #e7ecf1;
+    --text-dim: #8fa1b3;
+    --text-faint: #5b6c7d;
+    --accent: #5fd4c7;
+    --accent-dim: #3a8f85;
+    --amber: #f2a65a;
+    --red: #e2685a;
+    --radius: 3px;
+    --mono: 'IBM Plex Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection{ background: var(--accent); color: #06110f; }
+
+  a{ color: inherit; text-decoration: none; }
+
+  .wrap{
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- top bar ---------- */
+  header.topbar{
+    border-bottom: 1px solid var(--bg-line);
+    position: sticky;
+    top: 0;
+    background: rgba(13,21,32,0.88);
+    backdrop-filter: blur(8px);
+    z-index: 50;
+  }
+  .topbar-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 16px 0;
+  }
+  .logo{
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+  .logo span{ color: var(--accent); }
+  nav.toplinks{ display:flex; gap: 24px; font-family: var(--mono); font-size: 13px; }
+  nav.toplinks a{ color: var(--text-dim); transition: color .15s; }
+  nav.toplinks a:hover{ color: var(--accent); }
+
+  @media (max-width: 560px){
+    nav.toplinks{ display:none; }
+  }
+
+  /* ---------- hero / pipeline ---------- */
+  .hero{ padding: 72px 0 40px; }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    display:flex; align-items:center; gap: 10px;
+    margin-bottom: 22px;
+  }
+  .eyebrow .dot{
+    width:7px; height:7px; border-radius:50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(95,212,199,0.15);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; } 50%{ opacity:.35; }
+  }
+
+  h1.name{
+    font-size: clamp(38px, 6vw, 58px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 14px;
+  }
+
+  .role-line{
+    font-family: var(--mono);
+    font-size: 17px;
+    color: var(--text-dim);
+    margin-bottom: 30px;
+  }
+  .role-line .cursor{
+    display:inline-block; width: 8px; height: 17px;
+    background: var(--amber);
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+    vertical-align: -3px;
+  }
+  @keyframes blink{ 50%{ opacity: 0; } }
+
+  .hero-desc{
+    max-width: 560px;
+    color: var(--text-dim);
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+  .hero-desc b{ color: var(--text); font-weight: 600; }
+
+  .cta-row{ display:flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+  .btn{
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 11px 18px;
+    border-radius: var(--radius);
+    border: 1px solid var(--bg-line);
+    transition: border-color .15s, transform .15s, background .15s;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{ transform: translateY(-1px); }
+  .btn-primary{ background: var(--accent); color: #06110f; border-color: var(--accent); font-weight: 600; }
+  .btn-primary:hover{ background: #74e0d4; }
+  .btn-ghost{ color: var(--text-dim); }
+  .btn-ghost:hover{ border-color: var(--accent-dim); color: var(--text); }
+
+  /* pipeline strip — the signature element */
+  .pipeline{
+    border: 1px solid var(--bg-line);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    padding: 22px 24px 26px;
+    overflow-x: auto;
+  }
+  .pipeline-head{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+    display:flex; justify-content: space-between;
+  }
+  .stages{
+    display:flex; align-items:center; gap: 0;
+    min-width: 560px;
+  }
+  .stage{
+    flex: 1;
+    text-align:center;
+    position: relative;
+  }
+  .stage .node{
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-line);
+    background: var(--bg);
+    margin: 0 auto 10px;
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-faint);
+    transition: border-color .3s, color .3s, box-shadow .3s;
+  }
+  .stage.active .node{
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(95,212,199,0.1);
+  }
+  .stage .label{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    transition: color .3s;
+  }
+  .stage.active .label{ color: var(--text); }
+  .connector{
+    height: 2px;
+    flex: 0.6;
+    background: var(--bg-line);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .connector.active::after{
+    content:'';
+    position:absolute; inset:0;
+    background: var(--accent);
+    animation: fillLine 0.6s ease forwards;
+  }
+  @keyframes fillLine{ from{ transform: scaleX(0);} to{ transform: scaleX(1);} }
+  .connector.active{ transform-origin: left; }
+  .connector .fill{
+    position:absolute; inset:0; left:0;
+    background: var(--accent);
+    width: 0%;
+    transition: width .5s ease;
+  }
+
+  /* ---------- section shared ---------- */
+  section{ padding: 56px 0; border-top: 1px solid var(--bg-line); }
+  .section-tag{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h2.section-title{
+    font-size: clamp(24px, 3.4vw, 30px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 30px;
+  }
+
+  /* ---------- skills ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .skill-card{
+    border: 1px solid var(--bg-line);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    padding: 16px;
+    transition: border-color .15s, transform .15s;
+  }
+  .skill-card:hover{ border-color: var(--accent-dim); transform: translateY(-2px); }
+  .skill-card .k-name{ font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .skill-card .k-type{ font-family: var(--mono); font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* ---------- projects ---------- */
+  .project{
+    border: 1px solid var(--bg-line);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .project-top{
+    display:flex; align-items:flex-start; justify-content: space-between; gap: 16px;
+    margin-bottom: 10px;
+  }
+  .project-title{ font-size: 18px; font-weight: 600; }
+  .status{
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+  .status.planned{ color: var(--amber); border: 1px solid rgba(242,166,90,0.35); background: rgba(242,166,90,0.08); }
+  .status.building{ color: var(--accent); border: 1px solid rgba(95,212,199,0.35); background: rgba(95,212,199,0.08); }
+  .project p{ color: var(--text-dim); font-size: 14.5px; margin-bottom: 14px; max-width: 640px; }
+  .tag-row{ display:flex; gap: 8px; flex-wrap: wrap; }
+  .tag{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    border: 1px solid var(--bg-line);
+    padding: 3px 9px;
+    border-radius: var(--radius);
+  }
+
+  /* ---------- about / currently ---------- */
+  .about-text{ color: var(--text-dim); font-size: 15.5px; max-width: 640px; margin-bottom: 22px; }
+  .about-text b{ color: var(--text); font-weight: 600; }
+  .now-box{
+    font-family: var(--mono);
+    font-size: 13px;
+    border-left: 2px solid var(--amber);
+    padding: 10px 16px;
+    color: var(--text-dim);
+    background: var(--bg-raised);
+  }
+  .now-box b{ color: var(--amber); }
+
+  /* ---------- resume ---------- */
+  .resume-frame{
+    border: 1px solid var(--bg-line);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    overflow: hidden;
+    height: 640px;
+  }
+  .resume-frame iframe{
+    width: 100%; height: 100%; border: none; display:block;
+    background: #fff;
+  }
+  @media (max-width: 560px){
+    .resume-frame{ height: 420px; }
+  }
+
+  /* ---------- contact ---------- */
+  .contact-links{ display:flex; flex-direction: column; gap: 12px; max-width: 420px; }
+  .contact-link{
+    display:flex; align-items:center; justify-content: space-between;
+    border: 1px solid var(--bg-line);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    background: var(--bg-raised);
+    transition: border-color .15s, transform .15s;
+  }
+  .contact-link:hover{ border-color: var(--accent-dim); transform: translateX(3px); }
+  .contact-link .c-label{ font-family: var(--mono); font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.06em; }
+  .contact-link .c-value{ font-size: 14.5px; margin-top: 2px; }
+  .contact-link .arrow{ color: var(--accent); font-family: var(--mono); }
+
+  footer{
+    border-top: 1px solid var(--bg-line);
+    padding: 28px 0 44px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    display:flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="logo">vikas<span>@</span>devops<span>:~$</span></div>
+    <nav class="toplinks">
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#projects">projects</a>
+      <a href="#resume">resume</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top:none; padding-top:72px;">
+    <div class="eyebrow"><span class="dot"></span> OPEN TO OPPORTUNITIES</div>
+    <h1 class="name">Vikas N D</h1>
+    <div class="role-line">Aspiring DevOps Engineer<span class="cursor"></span></div>
+    <p class="hero-desc">
+      Building toward infrastructure and automation work — <b>cloud platforms</b>,
+      <b>Linux systems</b>, and <b>CI/CD pipelines</b>. Currently deep in a cloud
+      architecture course and turning what I learn into working infrastructure, not just notes.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="resume.pdf" download>Download Resume</a>
+      <a class="btn btn-ghost" href="mailto:vikasnd936@gmail.com">Get in touch</a>
+      <a class="btn btn-ghost" href="https://github.com/Vikas-Ediga" target="_blank" rel="noopener">View GitHub</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/vikas-n-d-3102533b6" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+
+    <div class="pipeline" aria-label="Deployment pipeline illustration">
+      <div class="pipeline-head"><span>deploy.yml</span><span id="pipeline-status">RUNNING</span></div>
+      <div class="stages" id="stages">
+        <div class="stage" data-i="0">
+          <div class="node">1</div>
+          <div class="label">Learn</div>
+        </div>
+        <div class="connector" data-i="0"><div class="fill"></div></div>
+        <div class="stage" data-i="1">
+          <div class="node">2</div>
+          <div class="label">Build</div>
+        </div>
+        <div class="connector" data-i="1"><div class="fill"></div></div>
+        <div class="stage" data-i="2">
+          <div class="node">3</div>
+          <div class="label">Automate</div>
+        </div>
+        <div class="connector" data-i="2"><div class="fill"></div></div>
+        <div class="stage" data-i="3">
+          <div class="node">4</div>
+          <div class="label">Deploy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-tag">01 — About</div>
+    <h2 class="section-title">Where I'm starting from</h2>
+    <p class="about-text">
+      I'm working through a <b>cloud architecture course</b> and building a foundation in
+      <b>AWS</b> and <b>Linux</b>, alongside programming in <b>Python, Java, and C</b>.
+      My goal is a DevOps role — so I'm learning infrastructure the way it's actually
+      used on the job: version-controlled, automated, and documented.
+    </p>
+    <div class="now-box"><b>Currently:</b> Cloud Architecture coursework → applying it to a hands-on infrastructure project below.</div>
+  </section>
+
+  <section id="skills">
+    <div class="section-tag">02 — Skills</div>
+    <h2 class="section-title">Tools I work with</h2>
+    <div class="skills-grid">
+      <div class="skill-card"><div class="k-name">AWS</div><div class="k-type">Cloud Platform</div></div>
+      <div class="skill-card"><div class="k-name">Linux</div><div class="k-type">Systems</div></div>
+      <div class="skill-card"><div class="k-name">DevOps Practices</div><div class="k-type">Workflow</div></div>
+      <div class="skill-card"><div class="k-name">Python</div><div class="k-type">Scripting</div></div>
+      <div class="skill-card"><div class="k-name">Java</div><div class="k-type">Programming</div></div>
+      <div class="skill-card"><div class="k-name">C</div><div class="k-type">Programming</div></div>
+      <div class="skill-card"><div class="k-name">Git / GitHub</div><div class="k-type">Version Control</div></div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-tag">03 — Projects</div>
+    <h2 class="section-title">What I'm building</h2>
+
+    <div class="project">
+      <div class="project-top">
+        <div class="project-title">Cloud Infrastructure Pipeline (AWS)</div>
+        <div class="status building">IN PROGRESS</div>
+      </div>
+      <p>
+        An end-to-end pipeline on AWS — data lands in S3, gets processed by a
+        Lambda function, and loads into a warehouse for a simple dashboard.
+        The whole stack is defined as code with Terraform, so it can be
+        spun up or torn down with one command instead of manual console clicks.
+      </p>
+      <div class="tag-row">
+        <span class="tag">AWS S3</span>
+        <span class="tag">Lambda</span>
+        <span class="tag">Terraform</span>
+        <span class="tag">Python</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <div class="project-title">CI/CD Pipeline for a Sample App</div>
+        <div class="status planned">PLANNED</div>
+      </div>
+      <p>
+        A GitHub Actions workflow that automatically tests and deploys a small
+        application on every push — the next step after the infra project above,
+        once the underlying environment is automated.
+      </p>
+      <div class="tag-row">
+        <span class="tag">GitHub Actions</span>
+        <span class="tag">Linux</span>
+        <span class="tag">Shell Scripting</span>
+      </div>
+    </div>
+
+    <div class="project" style="border-style: dashed; text-align:center; color: var(--text-faint); padding: 30px 24px;">
+      <p style="margin:0; font-family: var(--mono); font-size: 13px;">More projects land here as the coursework turns into working infrastructure.</p>
+    </div>
+  </section>
+
+  <section id="resume">
+    <div class="section-tag">04 — Resume</div>
+    <h2 class="section-title">Full resume</h2>
+    <p class="about-text">Preview it below, or download a copy to keep.</p>
+    <div class="resume-frame">
+      <iframe src="resume.pdf" title="Vikas N D — Resume" loading="lazy"></iframe>
+    </div>
+    <a class="btn btn-primary" style="margin-top:18px; display:inline-flex;" href="resume.pdf" download>Download PDF</a>
+  </section>
+
+  <section id="contact">
+    <div class="section-tag">05 — Contact</div>
+    <h2 class="section-title">Let's talk</h2>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:vikasnd936@gmail.com">
+        <div><div class="c-label">Email</div><div class="c-value">vikasnd936@gmail.com</div></div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/vikas-n-d-3102533b6" target="_blank" rel="noopener">
+        <div><div class="c-label">LinkedIn</div><div class="c-value">vikas-n-d-3102533b6</div></div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="contact-link" href="https://github.com/Vikas-Ediga" target="_blank" rel="noopener">
+        <div><div class="c-label">GitHub</div><div class="c-value">Vikas-Ediga</div></div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>© 2026 Vikas N D</span>
+  <span>Built &amp; deployed on GitHub Pages</span>
+</footer>
+
+<script>
+  // Animate the hero pipeline strip in a loop
+  (function(){
+    var stages = document.querySelectorAll('.stage');
+    var connectors = document.querySelectorAll('.connector');
+    var statusEl = document.getElementById('pipeline-status');
+    var i = 0;
+    var total = stages.length;
+
+    function reset(){
+      stages.forEach(function(s){ s.classList.remove('active'); });
+      connectors.forEach(function(c){ c.querySelector('.fill').style.width = '0%'; });
+    }
+
+    function step(){
+      if(i === 0){ reset(); statusEl.textContent = 'RUNNING'; }
+      stages[i].classList.add('active');
+      if(i > 0){ connectors[i-1].querySelector('.fill').style.width = '100%'; }
+      if(i === total - 1){ statusEl.textContent = 'DEPLOYED'; }
+      i++;
+      if(i < total){
+        setTimeout(step, 650);
+      } else {
+        setTimeout(function(){ i = 0; step(); }, 2200);
+      }
+    }
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      step();
+    } else {
+      stages.forEach(function(s){ s.classList.add('active'); });
+      connectors.forEach(function(c){ c.querySelector('.fill').style.width = '100%'; });
+      statusEl.textContent = 'DEPLOYED';
+    }
+  })();
+</script>
+
+</body>
+</html>
