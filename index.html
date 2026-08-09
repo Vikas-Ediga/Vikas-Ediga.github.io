@@ -46,7 +46,6 @@
     padding: 0 28px;
   }
 
-  /* ---------- top bar ---------- */
   header.topbar{
     border-bottom: 1px solid var(--bg-line);
     position: sticky;
@@ -74,7 +73,6 @@
     nav.toplinks{ display:none; }
   }
 
-  /* ---------- hero / pipeline ---------- */
   .hero{ padding: 72px 0 40px; }
   .eyebrow{
     font-family: var(--mono);
@@ -140,7 +138,6 @@
   .btn-ghost{ color: var(--text-dim); }
   .btn-ghost:hover{ border-color: var(--accent-dim); color: var(--text); }
 
-  /* pipeline strip — the signature element */
   .pipeline{
     border: 1px solid var(--bg-line);
     border-radius: var(--radius);
@@ -213,7 +210,6 @@
     transition: width .5s ease;
   }
 
-  /* ---------- section shared ---------- */
   section{ padding: 56px 0; border-top: 1px solid var(--bg-line); }
   .section-tag{
     font-family: var(--mono);
@@ -230,7 +226,6 @@
     margin-bottom: 30px;
   }
 
-  /* ---------- skills ---------- */
   .skills-grid{
     display:grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -247,7 +242,6 @@
   .skill-card .k-name{ font-weight: 600; font-size: 15px; margin-bottom: 4px; }
   .skill-card .k-type{ font-family: var(--mono); font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; }
 
-  /* ---------- projects ---------- */
   .project{
     border: 1px solid var(--bg-line);
     border-radius: var(--radius);
@@ -281,7 +275,6 @@
     border-radius: var(--radius);
   }
 
-  /* ---------- about / currently ---------- */
   .about-text{ color: var(--text-dim); font-size: 15.5px; max-width: 640px; margin-bottom: 22px; }
   .about-text b{ color: var(--text); font-weight: 600; }
   .now-box{
@@ -294,7 +287,6 @@
   }
   .now-box b{ color: var(--amber); }
 
-  /* ---------- resume ---------- */
   .resume-frame{
     border: 1px solid var(--bg-line);
     border-radius: var(--radius);
@@ -302,15 +294,19 @@
     overflow: hidden;
     height: 640px;
   }
-  .resume-frame iframe{
+  .resume-frame iframe, .resume-frame object{
     width: 100%; height: 100%; border: none; display:block;
     background: #fff;
+  }
+  .resume-fallback{
+    display:flex; flex-direction: column; align-items:center; justify-content:center;
+    height: 100%; gap: 14px; color: var(--text-faint); font-family: var(--mono); font-size: 13px;
+    background: var(--bg);
   }
   @media (max-width: 560px){
     .resume-frame{ height: 420px; }
   }
 
-  /* ---------- contact ---------- */
   .contact-links{ display:flex; flex-direction: column; gap: 12px; max-width: 420px; }
   .contact-link{
     display:flex; align-items:center; justify-content: space-between;
@@ -474,7 +470,12 @@
     <h2 class="section-title">Full resume</h2>
     <p class="about-text">Preview it below, or download a copy to keep.</p>
     <div class="resume-frame">
-      <iframe src="resume.pdf" title="Vikas N D — Resume" loading="lazy"></iframe>
+      <object data="resume.pdf" type="application/pdf" title="Vikas N D — Resume">
+        <div class="resume-fallback">
+          <p>Your browser can't preview PDFs inline.</p>
+          <a class="btn btn-primary" href="resume.pdf" download>Download PDF instead</a>
+        </div>
+      </object>
     </div>
     <a class="btn btn-primary" style="margin-top:18px; display:inline-flex;" href="resume.pdf" download>Download PDF</a>
   </section>
@@ -506,7 +507,6 @@
 </footer>
 
 <script>
-  // Animate the hero pipeline strip in a loop
   (function(){
     var stages = document.querySelectorAll('.stage');
     var connectors = document.querySelectorAll('.connector');
